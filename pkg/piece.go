@@ -1,36 +1,30 @@
-package piece
+package pkg
 
 import (
 	"fmt"
 )
 
-type Piece struct {
-	colour     string
-	identifier int
-	row, col   int
-}
-
 const (
-	WhitePawn string = "\u2659"
-	BlackPawn string = "\u265F"
+	WhitePawn = "\u2659"
+	BlackPawn = "\u265F"
 
-	WhiteRook string = "\u2656"
-	BlackRook string = "\u265C"
+	WhiteRook = "\u2656"
+	BlackRook = "\u265C"
 
-	WhiteBishop string = "\u2657"
-	BlackBishop string = "\u265D"
+	WhiteBishop = "\u2657"
+	BlackBishop = "\u265D"
 
-	WhiteKnight string = "\u2658"
-	BlackKnight string = "\u265E"
+	WhiteKnight = "\u2658"
+	BlackKnight = "\u265E"
 
-	WhiteQueen string = "\u2655"
-	BlackQueen string = "\u265B"
+	WhiteQueen = "\u2655"
+	BlackQueen = "\u265B"
 
-	WhiteKing string = "\u2654"
-	BlackKing string = "\u265A"
+	WhiteKing = "\u2654"
+	BlackKing = "\u265A"
 )
 
-func CreatePiece(identifier int, row int, col int) Piece {
+func createPiece(identifier int, row int, col int) Piece {
 	var colour string
 
 	if identifier%2 == 0 {
@@ -42,7 +36,7 @@ func CreatePiece(identifier int, row int, col int) Piece {
 	return Piece{colour, identifier, row, col}
 }
 
-func GetPieceSymbol(identifier int) string {
+func getPieceSymbol(identifier int) string {
 	switch identifier {
 	case 0:
 		return WhitePawn
@@ -67,5 +61,24 @@ func GetPieceSymbol(identifier int) string {
 	default:
 		errorString := fmt.Sprintf("Invalid identifier: %d", identifier)
 		panic(errorString)
+	}
+}
+
+func getPawnMoves(row int, col int, board Board, colour string) []string {
+	var moves []string
+	var firstMove bool
+
+	oneStep := row
+	twoStep := row
+
+	switch colour {
+	case "white":
+		oneStep -= 1
+		twoStep -= 2
+		firstMove = row == boardSize-2
+	case "black":
+		oneStep += 1
+		twoStep += 2
+		firstMove = row == 1
 	}
 }
