@@ -24,6 +24,16 @@ const (
 	BlackKing = "\u265A"
 )
 
+type Piece struct {
+	colour     string
+	identifier int
+	row, col   int
+}
+
+func (piece Piece) toString() string {
+	return getPieceSymbol(piece.identifier)
+}
+
 func createPiece(identifier int, row int, col int) Piece {
 	var colour string
 
@@ -61,24 +71,5 @@ func getPieceSymbol(identifier int) string {
 	default:
 		errorString := fmt.Sprintf("Invalid identifier: %d", identifier)
 		panic(errorString)
-	}
-}
-
-func getPawnMoves(row int, col int, board Board, colour string) []string {
-	var moves []string
-	var firstMove bool
-
-	oneStep := row
-	twoStep := row
-
-	switch colour {
-	case "white":
-		oneStep -= 1
-		twoStep -= 2
-		firstMove = row == boardSize-2
-	case "black":
-		oneStep += 1
-		twoStep += 2
-		firstMove = row == 1
 	}
 }
