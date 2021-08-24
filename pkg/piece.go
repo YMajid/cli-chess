@@ -61,12 +61,16 @@ func getPieceSymbol(identifier int) string {
 	case 5:
 		return BlackBishop
 	case 6:
-		return WhiteQueen
+		return WhiteKnight
 	case 7:
-		return BlackQueen
+		return BlackKnight
 	case 8:
-		return WhiteKing
+		return WhiteQueen
 	case 9:
+		return BlackQueen
+	case 10:
+		return WhiteKing
+	case 11:
 		return BlackKing
 	default:
 		errorString := fmt.Sprintf("Invalid identifier: %d", identifier)

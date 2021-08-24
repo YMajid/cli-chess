@@ -1,9 +1,11 @@
 package pkg
 
 import (
-	"strings"
-
+	"bufio"
+	"fmt"
+	"os"
 	"strconv"
+	"strings"
 )
 
 const boardSize = 8
@@ -12,7 +14,16 @@ type Board struct {
 	squares [][]Square
 }
 
-func CreateBoard() *Board {
+func Runner() {
+	path := "/home/yousif/Programming/cli-chess/pkg/initialBoard.txt"
+	board := createBoard()
+	board.initializeBoard(path)
+	strBoard := board.toString()
+	formattedBoard := formatBoard(strBoard)
+	fmt.Println(formattedBoard)
+}
+
+func createBoard() *Board {
 	board := new(Board)
 
 	squares := make([][]Square, boardSize)
@@ -26,6 +37,25 @@ func CreateBoard() *Board {
 
 	board.squares = squares
 	return board
+}
+
+func (board *Board) initializeBoard(path string) {
+	file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		textSplit := strings.Split(scanner.Text(), " ")
+		identifier, _ := strconv.Atoi(textSplit[0])
+		position := strings.TrimSpace(textSplit[1])
+
+		square := board.getSquare(position)
+		piece := createPiece(identifier, square.row, square.col)
+		square.setPiece(&piece)
+	}
 }
 
 func (board Board) toString() [][]string {
